@@ -1,13 +1,13 @@
 ﻿#pragma once
 
-#ifndef __ANDROID__
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_ttf.h"
-#else
+#if defined(__ANDROID__) || defined(__SWITCH__)
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#else
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
 #endif
 
 #include <algorithm>

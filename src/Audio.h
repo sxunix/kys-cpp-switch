@@ -8,7 +8,11 @@ using MUSIC = HSTREAM;
 using WAV = HSAMPLE;
 using MIDI_FONT = BASS_MIDI_FONT;
 #else
+#if defined(__ANDROID__) || defined(__SWITCH__)
+#include "SDL_mixer.h"
+#else
 #include "SDL2/SDL_mixer.h"
+#endif
 using MUSIC = Mix_Music*;
 using WAV = Mix_Chunk*;
 using MIDI_FONT = void*;

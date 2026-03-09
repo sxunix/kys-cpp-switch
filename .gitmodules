@@ -1,3 +1,4 @@
 [submodule "mlcc"]
 	path = mlcc
-	url = https://github.com/scarsty/mlcc
+	url = https://github.com/sxunix/mlcc.git
+	branch = switch-port

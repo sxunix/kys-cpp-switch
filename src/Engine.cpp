@@ -26,9 +26,15 @@ int Engine::init(void* handle /*= nullptr*/, int handle_type /*= 0*/, int maximi
     }
     inited_ = true;
 #ifndef _WINDLL
-    if (SDL_Init(SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER | SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_SENSOR))
     {
-        return -1;
+        Uint32 sdl_flags = SDL_INIT_EVENTS | SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER | SDL_INIT_JOYSTICK;
+#ifndef __SWITCH__
+        sdl_flags |= SDL_INIT_HAPTIC | SDL_INIT_SENSOR;
+#endif
+        if (SDL_Init(sdl_flags))
+        {
+            return -1;
+        }
     }
 #endif
     window_mode_ = handle_type;
@@ -45,12 +51,16 @@ int Engine::init(void* handle /*= nullptr*/, int handle_type /*= 0*/, int maximi
     }
     else
     {
+#ifdef __SWITCH__
+        window_ = SDL_CreateWindow(title_.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_FULLSCREEN);
+#else
         uint32_t flags = SDL_WINDOW_RESIZABLE;
         if (maximized)
         {
             flags |= SDL_WINDOW_MAXIMIZED;
         }
         window_ = SDL_CreateWindow(title_.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, start_w_, start_h_, flags);
+#endif
     }
     //SDL_CreateWindowFrom()
 #ifndef _WINDLL

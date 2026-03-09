@@ -1,13 +1,9 @@
 #pragma once
 #include "FunctionTrait.h"
-#ifdef _WIN32
-#include "lua.hpp"
-#else
-#ifdef __ANDROID__
+#if defined(_WIN32) || defined(__ANDROID__) || defined(__SWITCH__)
 #include "lua.hpp"
 #else
 #include "lua5.4/lua.hpp"
-#endif
 #endif
 #include <array>
 #include <string>

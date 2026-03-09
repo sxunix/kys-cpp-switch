@@ -27,10 +27,12 @@ public:
 
     static std::string& PATH()
     {
-#ifndef __ANDROID__
-        static std::string s = "../game/";
-#else
+#ifdef __SWITCH__
+        static std::string s = "/switch/kys/game/";
+#elif defined(__ANDROID__)
         static std::string s = "/sdcard/game/";
+#else
+        static std::string s = "../game/";
 #endif
         return s;
     }

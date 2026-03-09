@@ -1,4 +1,27 @@
 #pragma once
+#include <string>
+
+#ifdef WITHOUT_OPENCC
+
+class OpenCCConverter
+{
+public:
+    OpenCCConverter() {}
+    virtual ~OpenCCConverter() {}
+    std::string UTF8s2t(const std::string& in) { return in; }
+    std::string UTF8t2s(const std::string& in) { return in; }
+    std::string CP936s2t(const std::string& in) { return in; }
+    void set(const std::string& setfile) {}
+
+    static OpenCCConverter* getInstance()
+    {
+        static OpenCCConverter cc;
+        return &cc;
+    }
+};
+
+#else
+
 #ifndef __ANDROID__
 #include "opencc/opencc.h"
 #else
@@ -26,3 +49,5 @@ private:
     opencc_t cc_t2s = nullptr, cc_s2t = nullptr;
     std::string utf8(const std::string& in, opencc_t cc);
 };
+
+#endif

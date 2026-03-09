@@ -1,4 +1,6 @@
 ﻿#include "OpenCCConverter.h"
+
+#ifndef WITHOUT_OPENCC
 #include "GameUtil.h"
 #include "PotConv.h"
 
@@ -50,3 +52,5 @@ std::string OpenCCConverter::utf8(const std::string& in, opencc_t cc)
     opencc_convert_utf8_to_buffer(cc, in.c_str(), in.size(), &str[0]);
     return str;
 }
+
+#endif // WITHOUT_OPENCC

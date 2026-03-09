@@ -25,3 +25,11 @@ hades
 kys-c++
 .vscode
 
+# Switch build artifacts
+src/platform/switch/bin/
+src/platform/switch/*.nro
+src/platform/switch/*.nacp
+src/platform/switch/*.elf
+src/platform/switch/*.map
+build-switch-deps/
+local/switch/
