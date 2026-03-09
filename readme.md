@@ -42,6 +42,64 @@ Linux下编译参考doc目录中的文档。需注意没有联机对战部分。
 
 对依赖的详细解释见doc目录中的dependencies.md。
 
+## Nintendo Switch 移植
+
+基于 tag 0.4（最后的 SDL2 版本）移植到 Nintendo Switch，使用 devkitPro 工具链编译为 homebrew NRO 格式。
+
+### 编译方法
+
+**1. 安装 devkitPro 及 SDL2 包**
+
+```bash
+sudo dkp-pacman -S switch-sdl2 switch-sdl2_image switch-sdl2_ttf switch-sdl2_mixer
+```
+
+**2. 交叉编译依赖库（Lua 5.4, sqlite3, yaml-cpp, libiconv）**
+
+```bash
+bash tools/switch/setup_switch_deps.sh
+```
+
+**3. 编译**
+
+```bash
+export DEVKITPRO=/opt/devkitpro
+export PATH=$DEVKITPRO/tools/bin:$DEVKITPRO/devkitA64/bin:$PATH
+cd src/platform/switch
+make -j$(nproc)
+# 输出: kys.nro
+```
+
+### SD 卡目录结构
+
+```
+/switch/kys/
+  kys.nro
+  game/
+    config/kysmod.ini
+    font/chinese.ttf
+    font/english.ttf
+    music/
+    sound/
+    save/
+    *.grp, *.idx
+```
+
+### 配置说明
+
+编辑 `game/config/kysmod.ini`：
+- `battle_mode=0`：经典回合制（DOS 原版）
+- `RESOLUTIONX=1280, RESOLUTIONY=720`：16:9 全屏
+- 资源文件需自行获取，请参考原版说明
+
+### 移植说明
+
+- 音频使用 SDL_mixer（`USE_SDL_MIXER_AUDIO`），替代 Windows 专用的 BASS 库
+- 简繁转换 OpenCC 已禁用（`WITHOUT_OPENCC`），游戏文本以繁体显示
+- 网络/视频功能已禁用（Switch homebrew 环境不支持）
+- 分辨率 1280×720 = Switch 原生分辨率
+- 子模块 mlcc 使用 [sxunix/mlcc switch-port 分支](https://github.com/sxunix/mlcc/tree/switch-port)，包含 Switch newlib 兼容修改
+
 ## 授权
 
 以下文本，若中文和英文存在冲突，则以中文为准。
